@@ -1,12 +1,10 @@
 {
   "name": "bank-new2",
   "version": "1.0.0",
-  "description": "Banking management application",
-  "main": "api/index.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "echo 'Build complete'"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +16,5 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0"
-  },
-  "engines": {
-    "node": ">=16.x"
   }
 }

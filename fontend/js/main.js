@@ -1,5 +1,3 @@
-// API base URL configuration for Vercel deployment
-const API_BASE = window.location.hostname === 'localhost' ? '' : '/api';
 document.addEventListener('DOMContentLoaded', function() {
   // Load user data in topbar
   const user = JSON.parse(localStorage.getItem('user'));

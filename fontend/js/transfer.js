@@ -1,5 +1,3 @@
-// API base URL configuration for Vercel deployment
-const API_BASE = window.location.hostname === 'localhost' ? '' : '/api';
 // Transfer page specific JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize transfer form
