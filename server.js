@@ -124,20 +124,20 @@ app.post('/api/banks', authenticate, async (req, res) => {
 // Delete bank
 app.delete('/api/banks/:id', authenticate, async (req, res) => {
   try {
-    const bankId = req.params.id;
-    
-    // Check if the bank exists and belongs to the user
-    const bank = await Bank.findOne({ _id: bankId, userId: req.userId });
-    
+    const bank = await Bank.findById(req.params.id);
     if (!bank) {
-      return res.status(404).json({ error: 'Bank not found or unauthorized' });
+      return res.status(404).json({ error: 'Bank not found' });
     }
     
-    await Bank.findByIdAndDelete(bankId);
+    // Check if the bank belongs to the authenticated user
+    if (bank.userId !== req.userId) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+    
+    await Bank.findByIdAndDelete(req.params.id);
     res.json({ message: 'Bank deleted successfully' });
   } catch (err) {
-    console.error('Error deleting bank:', err);
-    res.status(500).json({ error: 'Failed to delete bank' });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -182,5 +182,4 @@ app.get('/api/stats', authenticate, async (req, res) => {
   }
 });
 
-// Export the app as a serverless function for Vercel
-module.exports = app;
+app.listen(port, () => console.log(`Server running at http://localhost:${3000}`));
