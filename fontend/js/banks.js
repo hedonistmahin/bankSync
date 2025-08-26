@@ -1,3 +1,5 @@
+// API base URL configuration for Vercel deployment
+const API_BASE = window.location.hostname === 'localhost' ? '' : '/api';
 document.addEventListener('DOMContentLoaded', function() {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-        const response = await fetch('/api/banks', {
+        const response = await fetch('${API_BASE}/api/banks', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load banks for my-banks.html
   async function loadBanks() {
     try {
-      const response = await fetch('/api/banks', {
+      const response = await fetch('${API_BASE}/api/banks', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {

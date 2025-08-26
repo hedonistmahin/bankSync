@@ -1,3 +1,5 @@
+// API base URL configuration for Vercel deployment
+const API_BASE = window.location.hostname === 'localhost' ? '' : '/api';
 document.addEventListener('DOMContentLoaded', function() {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load profile data from API
   async function loadProfile() {
     try {
-      const response = await fetch('/api/profile', {
+      const response = await fetch('${API_BASE}/api/profile', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
   async function loadFinancialData() {
     try {
       // Fetch banks data
-      const banksResponse = await fetch('/api/banks', {
+      const banksResponse = await fetch('${API_BASE}/api/banks', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('total-balance').textContent = formatCurrency(totalBalance);
       
       // Fetch transactions for monthly calculations
-      const transactionsResponse = await fetch('/api/transactions?limit=100', {
+      const transactionsResponse = await fetch('${API_BASE}/api/transactions?limit=100', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

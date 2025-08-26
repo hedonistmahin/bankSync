@@ -1,3 +1,5 @@
+// API base URL configuration for Vercel deployment
+const API_BASE = window.location.hostname === 'localhost' ? '' : '/api';
 document.addEventListener('DOMContentLoaded', function() {
   // Sign In Form
   const signInForm = document.getElementById('signInForm');
@@ -11,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       try {
-        const response = await fetch('/api/signin', {
+        const response = await fetch('${API_BASE}/api/signin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       try {
-        const response = await fetch('/api/signup', {
+        const response = await fetch('${API_BASE}/api/signup', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ firstName, lastName, email, password })
