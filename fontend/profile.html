@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - BankSync</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .profile-card {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .profile-header h2,
+        .dark-theme .profile-header p,
+        .dark-theme .member-since,
+        .dark-theme .card h3 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .detail-row {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .dark-theme .detail-row span:first-child {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .detail-row span:last-child {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        
+        .dark-theme .change-link {
+            color: #60a5fa;
+        }
+        
+        .dark-theme .status.enabled {
+            background: #166534;
+            color: #86efac;
+        }
+        
+        /* Dark theme buttons - FIXED with your colors */
+        .dark-theme .btn.primary {
+            background-color: #97B067; /* Sage Green */
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4; /* Lavender */
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55; /* Darker Sage Green */
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0; /* Darker Lavender */
+            border-color: #6f72b0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .settings-container {
+            background: var(--card-bg);
+        }
+        
+        /* Avatar styling */
+        .profile-avatar img {
+            object-fit: cover;
+        }
+        
+        .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #97B067; /* Sage Green */
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankSync</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html" class="active">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name"></span>
+                        <span class="user-email"></span>
+                    </div>
+                    <div class="user-avatar">
+                        <img id="avatar-img" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1>My Profile</h1>
+                    <p>Manage your personal information</p>
+                </div>
+
+                <div class="profile-container">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <img id="profile-avatar-img" alt="Profile">
+                                <button class="edit-avatar">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="profile-name"></h2>
+                                <p id="profile-email"></p>
+                                <span class="member-since">Member since: <span id="member-since-date"></span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <div class="detail-section">
+                                <h3>Personal Information</h3>
+                                <div class="detail-row">
+                                    <span>Full Name:</span>
+                                    <span id="full-name"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Email:</span>
+                                    <span id="email-address"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Phone:</span>
+                                    <span id="phone-number"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Date of Birth:</span>
+                                    <span id="date-of-birth"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Address:</span>
+                                    <span id="address-text"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h3>Financial Information</h3>
+                                <div class="detail-row">
+                                    <span>Total Accounts:</span>
+                                    <span id="total-accounts">0</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Total Balance:</span>
+                                    <span class="taka-symbol" id="total-balance">0.00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Monthly Income:</span>
+                                    <span class="taka-symbol" id="monthly-income">0.00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Monthly Expenses:</span>
+                                    <span class="taka-symbol" id="monthly-expenses">0.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h3>Security</h3>
+                                <div class="detail-row">
+                                    <span>Password:</span>
+                                    <span>•••••••• <a href="#" class="change-link">Change</a></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Two-Factor Authentication:</span>
+                                    <span class="status" id="2fa-status">Disabled</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Last Login:</span>
+                                    <span id="last-login">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="btn secondary">Edit Profile</button>
+                            <button class="btn danger">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+    <script>
+        // Format numbers with commas for Bangladeshi style
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (savedTheme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+            
+            // Format Taka amounts
+            const takaElements = document.querySelectorAll('.taka-symbol');
+            takaElements.forEach(element => {
+                const text = element.textContent;
+                if (text && !isNaN(parseFloat(text.replace(/,/g, '')))) {
+                    const number = parseFloat(text.replace(/,/g, ''));
+                    element.textContent = number.toLocaleString('en-BD', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

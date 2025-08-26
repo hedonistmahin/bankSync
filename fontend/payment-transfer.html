@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Money - BankSync</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .transfer-form {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .section-header h2,
+        .dark-theme .card h3,
+        .dark-theme .transfer-form h2 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .amount,
+        .dark-theme .account-balance,
+        .dark-theme .transaction-amount {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .negative {
+            color: #f87171;
+        }
+        
+        .dark-theme .positive {
+            color: #60a5fa;
+        }
+        
+        .dark-theme .form-group input,
+        .dark-theme .form-group select {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .form-group input:focus,
+        .dark-theme .form-group select:focus {
+            border-color: #60a5fa;
+        }
+        
+        .dark-theme .form-group label {
+            color: #cbd5e1;
+        }
+        
+        /* Dark theme buttons - FIXED with your colors */
+        .dark-theme .btn.primary {
+            background-color: #97B067; /* Sage Green */
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4; /* Lavender */
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55; /* Darker Sage Green */
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0; /* Darker Lavender */
+            border-color: #6f72b0;
+        }
+        
+        /* Additional dark theme fixes */
+        .dark-theme .transfer-info .card {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .recent-transfer {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .dark-theme .recent-transfer:last-child {
+            border-bottom: none;
+        }
+        
+        .dark-theme .transfer-details p {
+            color: #94a3b8;
+        }
+        
+        .dark-theme ul.security-tips li {
+            color: #cbd5e1;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .settings-container {
+            background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankSync</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html" class="active">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Md Modabbir Hossain Mahin</span>
+                        <span class="user-email">mahin@example.com</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Md+Modabbir+Hossain+Mahin&background=97B067&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1>Transfer Money</h1>
+                    <p>Send money between your accounts or to others</p>
+                </div>
+
+                <div class="transfer-container">
+                    <div class="transfer-form">
+                        <h2>Transfer Details</h2>
+                        <form id="transferForm">
+                            <div class="form-group">
+                                <label for="fromAccount">From Account</label>
+                                <select id="fromAccount" required>
+                                    <option value="">Select Account</option>
+                                    <option value="dbbl">Dutch-Bangla Bank (**** 4832) - <span class="taka-symbol">12450.75</span></option>
+                                    <option value="brac">BRAC Bank Savings (**** 7521) - <span class="taka-symbol">25300.00</span></option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="toAccount">To Account</label>
+                                <select id="toAccount" required>
+                                    <option value="">Select Account</option>
+                                    <option value="city">City Bank Credit (**** 9087) - -<span class="taka-symbol">4825.86</span></option>
+                                    <option value="brac">BRAC Bank Savings (**** 7521) - <span class="taka-symbol">25300.00</span></option>
+                                    <option value="other">Other Account</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0.01" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="description">Description (Optional)</label>
+                                <input type="text" id="description" placeholder="e.g., Rent payment">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="date">Transfer Date</label>
+                                <input type="date" id="date" value="2023-06-15">
+                            </div>
+                            
+                            <button type="submit" class="btn primary full-width">Transfer Money</button>
+                        </form>
+                    </div>
+
+                    <div class="transfer-info">
+                        <div class="card">
+                            <h3>Transfer Limits</h3>
+                            <div class="limit-info">
+                                <p>Daily Limit: <span class="amount taka-symbol">10000.00</span></p>
+                                <p>Remaining Today: <span class="amount taka-symbol">10000.00</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Recent Transfers</h3>
+                            <div class="recent-transfer">
+                                <div class="transfer-details">
+                                    <p>To: BRAC Bank Savings</p>
+                                    <p>Date: Jun 10, 2023</p>
+                                </div>
+                                <div class="transfer-amount taka-symbol">1000.00</div>
+                            </div>
+                            <div class="recent-transfer">
+                                <div class="transfer-details">
+                                    <p>To: City Bank Credit</p>
+                                    <p>Date: Jun 5, 2023</p>
+                                </div>
+                                <div class="transfer-amount taka-symbol">500.00</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Security Tips</h3>
+                            <ul class="security-tips">
+                                <li>Never share your transfer details with anyone</li>
+                                <li>Always verify recipient information</li>
+                                <li>Enable two-factor authentication</li>
+                                <li>Monitor your accounts regularly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Format numbers with commas for Bangladeshi style
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (savedTheme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+            
+            // Format Taka amounts
+            const takaElements = document.querySelectorAll('.taka-symbol');
+            takaElements.forEach(element => {
+                const text = element.textContent;
+                if (text && !isNaN(parseFloat(text.replace(/,/g, '')))) {
+                    const number = parseFloat(text.replace(/,/g, ''));
+                    element.textContent = number.toLocaleString('en-BD', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        });
+    </script>
+</body>
+</html>

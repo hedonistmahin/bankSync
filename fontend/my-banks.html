@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Banks - BankEase</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .bank-card,
+        .dark-theme .bank-detail-card {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .section-header h2,
+        .dark-theme .card h3,
+        .dark-theme .bank-name,
+        .dark-theme .account-info h4,
+        .dark-theme .account-type,
+        .dark-theme .spending-info span,
+        .dark-theme .detail-section h3 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .amount,
+        .dark-theme .account-balance,
+        .dark-theme .transaction-amount {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .negative {
+            color: #f87171;
+        }
+        
+        .dark-theme .positive {
+            color: #60a5fa;
+        }
+        
+        .dark-theme .form-group input,
+        .dark-theme .form-group select {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .form-group input:focus,
+        .dark-theme .form-group select:focus {
+            border-color: #60a5fa;
+        }
+        
+        /* Dark theme buttons */
+        .dark-theme .btn.primary {
+            background-color: #97B067;
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4;
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55;
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0;
+            border-color: #6f72b0;
+        }
+        
+        /* Fixed dark theme for bank details section */
+        .dark-theme .detail-row {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .dark-theme .detail-row span:first-child {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .detail-row span:last-child {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        
+        .dark-theme .change-link {
+            color: #60a5fa;
+        }
+        
+        .dark-theme .status.enabled {
+            background: #166534;
+            color: #86efac;
+        }
+        
+        /* Additional dark theme fixes */
+        .dark-theme .search-box {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .search-box input {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .search-btn {
+            background-color: #97B067;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .bank-card-header {
+            background: linear-gradient(135deg, #97B067, #E3DE61);
+        }
+        
+        .dark-theme .bank-card-body {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .dark-theme .progress-bar {
+            background-color: #334155;
+        }
+        
+        .dark-theme .progress {
+            background: linear-gradient(90deg, #97B067, #E3DE61);
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* No banks message styling */
+        .no-banks-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .no-banks-message i {
+            font-size: 3rem;
+            color: #97B067;
+            margin-bottom: 1rem;
+        }
+        
+        .no-banks-message h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .no-banks-message p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        /* Loading indicator */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #97B067;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .dark-theme .loading-spinner {
+            border: 4px solid #334155;
+            border-top: 4px solid #97B067;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error message styling */
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 4px solid #c62828;
+        }
+        
+        .dark-theme .error-message {
+            background: #422;
+            color: #ff8a8a;
+            border-left: 4px solid #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankEase</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html" class="active">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="logout-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name"></span>
+                        <span class="user-email"></span>
+                    </div>
+                    <div class="user-avatar">
+                        <img id="avatar-img" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1>My Banks</h1>
+                    <p>Manage your connected bank accounts</p>
+                </div>
+
+                <div class="actions-bar">
+                    <a href="connect-bank.html" class="btn primary">
+                        <i class="fas fa-plus"></i> Add New Bank
+                    </a>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search banks..." id="bankSearch">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="loading-spinner"></div>
+                </div>
+
+                <div class="bank-cards-grid" id="bank-cards-container" style="display: none;">
+                    <!-- Bank cards will be dynamically inserted here -->
+                </div>
+
+                <div class="no-banks-message" id="noBanksMessage" style="display: none;">
+                    <i class="fas fa-university"></i>
+                    <h3>No banks connected yet</h3>
+                    <p>Connect your first bank account to get started</p>
+                    <a href="connect-bank.html" class="btn primary">Connect Bank</a>
+                </div>
+
+                <div class="section-header" id="bank-details-header" style="display: none;">
+                    <h2>Bank Account Details</h2>
+                </div>
+
+                <div class="bank-details-grid" id="bank-details-container" style="display: none;">
+                    <!-- Bank details will be dynamically inserted here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Main functionality for the My Banks page
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            if (!token || !user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update topbar with user info
+            document.querySelector('.user-name').textContent = `${user.firstName} ${user.lastName}`;
+            document.querySelector('.user-email').textContent = user.email;
+            
+            // Set avatar image
+            const avatarImg = document.getElementById('avatar-img');
+            const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.firstName + ' ' + user.lastName)}&background=97B067&color=fff`;
+            avatarImg.src = avatarUrl;
+            avatarImg.alt = `${user.firstName} ${user.lastName}`;
+
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (savedTheme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+
+            // Load banks
+            loadBanks();
+
+            // Add search functionality
+            const searchInput = document.getElementById('bankSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    filterBanks(this.value);
+                });
+            }
+
+            // Logout functionality
+            document.getElementById('logout-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            });
+        });
+
+        async function loadBanks() {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch('/api/banks', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const banks = await response.json();
+                
+                // Hide loading indicator
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                if (banks.error) {
+                    console.error('Banks error:', banks.error);
+                    showError('Failed to load banks: ' + banks.error);
+                    return;
+                }
+                
+                displayBanks(banks);
+                
+            } catch (err) {
+                console.error('Error loading banks:', err);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                showError('Error loading banks. Please try again.');
+            }
+        }
+
+        function displayBanks(banks) {
+            const bankCardsContainer = document.getElementById('bank-cards-container');
+            const bankDetailsContainer = document.getElementById('bank-details-container');
+            const noBanksMessage = document.getElementById('noBanksMessage');
+            const bankDetailsHeader = document.getElementById('bank-details-header');
+            
+            // Clear existing content
+            bankCardsContainer.innerHTML = '';
+            bankDetailsContainer.innerHTML = '';
+            
+            if (banks.length === 0) {
+                noBanksMessage.style.display = 'flex';
+                bankCardsContainer.style.display = 'none';
+                bankDetailsHeader.style.display = 'none';
+                bankDetailsContainer.style.display = 'none';
+                return;
+            }
+            
+            noBanksMessage.style.display = 'none';
+            bankCardsContainer.style.display = 'grid';
+            bankDetailsHeader.style.display = 'block';
+            bankDetailsContainer.style.display = 'grid';
+            
+            // Create bank cards
+            banks.forEach(bank => {
+                const bankCard = createBankCard(bank);
+                bankCardsContainer.insertAdjacentHTML('beforeend', bankCard);
+            });
+            
+            // Create bank details
+            banks.forEach(bank => {
+                const bankDetail = createBankDetail(bank);
+                bankDetailsContainer.insertAdjacentHTML('beforeend', bankDetail);
+            });
+            
+            // Format currency values
+            formatCurrencyValues();
+        }
+
+        function createBankCard(bank) {
+            const isCreditCard = bank.accountType.toLowerCase().includes('credit');
+            const balanceClass = isCreditCard && bank.balance > 0 ? 'negative' : '';
+            const icon = getBankIcon(bank.accountType);
+            
+            return `
+                <div class="bank-card" data-bank-id="${bank._id}">
+                    <div class="bank-card-header">
+                        <div class="bank-icon">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="bank-name">${bank.bankName}</div>
+                    </div>
+                    <div class="bank-card-body">
+                        <div class="account-type">${capitalizeFirstLetter(bank.accountType)} Account</div>
+                        <div class="account-number">**** ${bank.accountNumber.slice(-4)}</div>
+                        <div class="account-balance taka-symbol ${balanceClass}">${bank.balance}</div>
+                    </div>
+                    <div class="bank-card-footer">
+                        <div class="spending-info">
+                            <span>Spending:</span>
+                            <span class="amount taka-symbol">0.00</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function createBankDetail(bank) {
+            const isCreditCard = bank.accountType.toLowerCase().includes('credit');
+            const balanceClass = isCreditCard && bank.balance > 0 ? 'negative' : '';
+            const availableBalance = isCreditCard ? 
+                (15000 - bank.balance).toFixed(2) : // Assuming credit limit of 15000
+                bank.balance.toFixed(2);
+            
+            return `
+                <div class="bank-detail-card" data-bank-id="${bank._id}">
+                    <h3>${bank.bankName} - ${capitalizeFirstLetter(bank.accountType)}</h3>
+                    <div class="detail-row">
+                        <span>Account Number:</span>
+                        <span>**** ${bank.accountNumber.slice(-4)}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Routing Number:</span>
+                        <span>${bank.routingNumber || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Current Balance:</span>
+                        <span class="taka-symbol ${balanceClass}">${bank.balance}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>${isCreditCard ? 'Available Credit:' : 'Available Balance:'}</span>
+                        <span class="taka-symbol">${availableBalance}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>${isCreditCard ? 'APR:' : 'Interest Rate:'}</span>
+                        <span>${isCreditCard ? '19.99%' : '0.01%'}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn secondary">View Transactions</button>
+                        <button class="btn danger" onclick="removeBank('${bank._id}')">Remove Account</button>
+                    </div>
+                </div>`;
+        }
+
+        function filterBanks(searchTerm) {
+            const bankCards = document.querySelectorAll('.bank-card');
+            const bankDetails = document.querySelectorAll('.bank-detail-card');
+            const searchLower = searchTerm.toLowerCase();
+            
+            bankCards.forEach(card => {
+                const bankName = card.querySelector('.bank-name').textContent.toLowerCase();
+                const accountType = card.querySelector('.account-type').textContent.toLowerCase();
+                
+                if (bankName.includes(searchLower) || accountType.includes(searchLower)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            bankDetails.forEach(detail => {
+                const bankName = detail.querySelector('h3').textContent.toLowerCase();
+                
+                if (bankName.includes(searchLower)) {
+                    detail.style.display = 'block';
+                } else {
+                    detail.style.display = 'none';
+                }
+            });
+        }
+
+        function getBankIcon(accountType) {
+            const type = accountType.toLowerCase();
+            if (type.includes('checking') || type.includes('current')) return 'fas fa-landmark';
+            if (type.includes('saving')) return 'fas fa-piggy-bank';
+            if (type.includes('credit')) return 'fas fa-credit-card';
+            if (type.includes('investment')) return 'fas fa-chart-line';
+            return 'fas fa-university';
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function formatCurrencyValues() {
+            const takaElements = document.querySelectorAll('.taka-symbol');
+            takaElements.forEach(element => {
+                const text = element.textContent;
+                if (text && !isNaN(parseFloat(text.replace(/,/g, '')))) {
+                    const number = parseFloat(text.replace(/,/g, ''));
+                    element.textContent = number.toLocaleString('en-BD', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+        }
+
+        async function removeBank(bankId) {
+            if (!confirm('Are you sure you want to remove this bank account?')) {
+                return;
+            }
+            
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`/api/banks/${bankId}`, {
+                    method: 'DELETE',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to delete bank');
+                }
+                
+                alert('Bank account removed successfully!');
+                
+                // Remove the bank card and detail from the UI immediately
+                document.querySelector(`.bank-card[data-bank-id="${bankId}"]`)?.remove();
+                document.querySelector(`.bank-detail-card[data-bank-id="${bankId}"]`)?.remove();
+                
+                // Check if there are any banks left
+                const remainingBanks = document.querySelectorAll('.bank-card');
+                if (remainingBanks.length === 0) {
+                    document.getElementById('bank-cards-container').style.display = 'none';
+                    document.getElementById('bank-details-container').style.display = 'none';
+                    document.getElementById('bank-details-header').style.display = 'none';
+                    document.getElementById('noBanksMessage').style.display = 'flex';
+                }
+                
+            } catch (err) {
+                console.error('Error removing bank:', err);
+                alert('Error removing bank account: ' + err.message);
+            }
+        }
+
+        function showError(message) {
+            // Remove any existing error messages
+            const existingErrors = document.querySelectorAll('.error-message');
+            existingErrors.forEach(error => error.remove());
+            
+            // Create error message element
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            
+            // Insert after actions bar
+            const actionsBar = document.querySelector('.actions-bar');
+            actionsBar.parentNode.insertBefore(errorDiv, actionsBar.nextSibling);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

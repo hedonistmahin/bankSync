@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - BankSync</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .transactions-table-container {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .section-header h2,
+        .dark-theme .card h3,
+        .dark-theme .transaction-details h4 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .amount,
+        .dark-theme .account-balance,
+        .dark-theme .transaction-amount {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .negative {
+            color: #f87171;
+        }
+        
+        .dark-theme .positive {
+            color: #60a5fa;
+        }
+        
+        .dark-theme .form-group input,
+        .dark-theme .form-group select {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .form-group input:focus,
+        .dark-theme .form-group select:focus {
+            border-color: #60a5fa;
+        }
+        
+        .dark-theme .form-group label {
+            color: #cbd5e1;
+        }
+        
+        /* Dark theme buttons - FIXED with your colors */
+        .dark-theme .btn.primary {
+            background-color: #97B067; /* Sage Green */
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4; /* Lavender */
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55; /* Darker Sage Green */
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0; /* Darker Lavender */
+            border-color: #6f72b0;
+        }
+        
+        /* Additional dark theme fixes */
+        .dark-theme .filters-section {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .transactions-table thead {
+            background-color: #334155;
+        }
+        
+        .dark-theme .transactions-table th {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .transactions-table tbody tr {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .dark-theme .transactions-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        .dark-theme .transactions-table td {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .transactions-table tbody tr:hover {
+            background-color: #334155;
+        }
+        
+        .dark-theme .pagination .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .page-info {
+            color: #cbd5e1;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .settings-container {
+            background: var(--card-bg);
+        }
+        
+        /* Modern Transaction History Styles */
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .greeting-card {
+            background: linear-gradient(135deg, #97B067, #E3DE61);
+            border-radius: 16px;
+            padding: 30px;
+            color: white;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .greeting-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .greeting-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .greeting-card h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .greeting-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #97B067;
+        }
+        
+        .dark-theme .stat-card {
+            background-color: #1e293b;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card.income {
+            border-top-color: #97B067;
+        }
+        
+        .stat-card.expense {
+            border-top-color: #898AC4;
+        }
+        
+        .stat-card.savings {
+            border-top-color: #E3DE61;
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .income .stat-icon {
+            background: rgba(151, 176, 103, 0.1);
+            color: #97B067;
+        }
+        
+        .expense .stat-icon {
+            background: rgba(137, 138, 196, 0.1);
+            color: #898AC4;
+        }
+        
+        .savings .stat-icon {
+            background: rgba(227, 222, 97, 0.1);
+            color: #E3DE61;
+        }
+        
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #322C2B;
+        }
+        
+        .trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .trend.up {
+            color: #97B067;
+        }
+        
+        .trend.down {
+            color: #898AC4;
+        }
+        
+        .filters-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-theme .filters-section {
+            background-color: #1e293b;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        
+        .dark-theme .filter-group label {
+            color: #cbd5e1;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 10px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            background: white;
+            color: #333;
+        }
+        
+        .dark-theme .filter-group select,
+        .dark-theme .filter-group input {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: #97B067;
+        }
+        
+        .transactions-table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .dark-theme .transactions-table-container {
+            background-color: #1e293b;
+        }
+        
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .transactions-table thead {
+            background-color: #f1f5f9;
+        }
+        
+        .dark-theme .transactions-table thead {
+            background-color: #334155;
+        }
+        
+        .transactions-table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #322C2B;
+            font-size: 0.9rem;
+        }
+        
+        .dark-theme .transactions-table th {
+            color: #e2e8f0;
+        }
+        
+        .transactions-table tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dark-theme .transactions-table tbody tr {
+            border-bottom: 1px solid #334155;
+        }
+        
+        .transactions-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        .transactions-table td {
+            padding: 15px 20px;
+            font-size: 0.95rem;
+        }
+        
+        .transactions-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .dark-theme .transactions-table tbody tr:hover {
+            background-color: #334155;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .page-info {
+            font-weight: 500;
+            color: #64748b;
+        }
+        
+        .dark-theme .page-info {
+            color: #cbd5e1;
+        }
+        
+        /* Transaction Item Modern Style */
+        .transaction-item-modern {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .dark-theme .transaction-item-modern {
+            background-color: #1e293b;
+        }
+        
+        .transaction-item-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transaction-icon-modern {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .icon-income {
+            background: rgba(151, 176, 103, 0.1);
+            color: #97B067;
+        }
+        
+        .icon-expense {
+            background: rgba(137, 138, 196, 0.1);
+            color: #898AC4;
+        }
+        
+        .icon-transfer {
+            background: rgba(227, 222, 97, 0.1);
+            color: #E3DE61;
+        }
+        
+        .transaction-details-modern {
+            flex: 1;
+        }
+        
+        .transaction-details-modern h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #322C2B;
+        }
+        
+        .dark-theme .transaction-details-modern h4 {
+            color: #e2e8f0;
+        }
+        
+        .transaction-details-modern p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 3px;
+        }
+        
+        .dark-theme .transaction-details-modern p {
+            color: #94a3b8;
+        }
+        
+        .transaction-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .dark-theme .transaction-meta {
+            color: #94a3b8;
+        }
+        
+        .transaction-amount-modern {
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: right;
+        }
+        
+        .transaction-amount-modern.positive {
+            color: #97B067;
+        }
+        
+        .transaction-amount-modern.negative {
+            color: #898AC4;
+        }
+        
+        .view-all-transactions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .view-all-transactions .btn {
+            padding: 12px 30px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .transaction-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .greeting-card {
+                text-align: center;
+            }
+            
+            .quick-actions {
+                justify-content: center;
+            }
+            
+            .filters-section {
+                flex-direction: column;
+            }
+            
+            .transaction-item-modern {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .transaction-icon-modern {
+                margin-bottom: 15px;
+            }
+            
+            .transaction-amount-modern {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankSync</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html" class="active">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Md Modabbir Hossain Mahin</span>
+                        <span class="user-email">mahin@example.com</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Md+Modabbir+Hossain+Mahin&background=97B067&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="transaction-header">
+                    <div class="greeting-card">
+                        <div class="greeting-content">
+                            <h1>Transaction History</h1>
+                            <p>Track all your financial activities in one place</p>
+                            <div class="quick-actions">
+                                <button class="action-btn" onclick="window.location.href='payment-transfer.html'">
+                                    <i class="fas fa-paper-plane"></i> Send Money
+                                </button>
+                                <button class="action-btn" onclick="window.location.href='connect-bank.html'">
+                                    <i class="fas fa-link"></i> Connect Bank
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-overview">
+                    <div class="stat-card income">
+                        <div class="stat-header">
+                            <h3>Total Income</h3>
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                        </div>
+                        <div class="stat-amount taka-symbol">42567.89</div>
+                        <div class="trend up">
+                            <i class="fas fa-arrow-up"></i> 12.5% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card expense">
+                        <div class="stat-header">
+                            <h3>Total Expenses</h3>
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-amount taka-symbol">8450.20</div>
+                        <div class="trend down">
+                            <i class="fas fa-arrow-down"></i> 3.2% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card savings">
+                        <div class="stat-header">
+                            <h3>Net Savings</h3>
+                            <div class="stat-icon">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="stat-amount taka-symbol">34117.69</div>
+                        <div class="trend up">
+                            <i class="fas fa-arrow-up"></i> 8.7% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label for="account">Account</label>
+                        <select id="account">
+                            <option>All Accounts</option>
+                            <option>Dutch-Bangla Bank (**** 4832)</option>
+                            <option>BRAC Bank Savings (**** 7521)</option>
+                            <option>City Bank Credit (**** 9087)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="date-range">Date Range</label>
+                        <select id="date-range">
+                            <option>Last 30 Days</option>
+                            <option>Last 7 Days</option>
+                            <option>This Month</option>
+                            <option>Last Month</option>
+                            <option>Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option>All Categories</option>
+                            <option>Income</option>
+                            <option>Shopping</option>
+                            <option>Housing</option>
+                            <option>Transportation</option>
+                            <option>Food & Dining</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search">Search</label>
+                        <input type="text" id="search" placeholder="Search transactions...">
+                    </div>
+                    <div class="filter-group">
+                        <button class="btn secondary" style="margin-top: 25px;">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Recent Transactions</h2>
+                </div>
+
+                <div class="transactions-list-modern">
+                    <div class="transaction-item-modern">
+                        <div class="transaction-icon-modern icon-income">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="transaction-details-modern">
+                            <h4>Salary Deposit</h4>
+                            <p>Dutch-Bangla Bank • Checking Account</p>
+                            <div class="transaction-meta">
+                                <span>Jun 15, 2023</span>
+                                <span>Reference: SAL-2023-06</span>
+                            </div>
+                        </div>
+                        <div class="transaction-amount-modern positive">
+                            +<span class="taka-symbol">35000.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item-modern">
+                        <div class="transaction-icon-modern icon-expense">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="transaction-details-modern">
+                            <h4>Grocery Store</h4>
+                            <p>Dutch-Bangla Bank • Debit Card</p>
+                            <div class="transaction-meta">
+                                <span>Jun 12, 2023</span>
+                                <span>Reference: TXN-98765</span>
+                            </div>
+                        </div>
+                        <div class="transaction-amount-modern negative">
+                            -<span class="taka-symbol">84.50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item-modern">
+                        <div class="transaction-icon-modern icon-expense">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="transaction-details-modern">
+                            <h4>Mortgage Payment</h4>
+                            <p>Dutch-Bangla Bank • Checking Account</p>
+                            <div class="transaction-meta">
+                                <span>Jun 10, 2023</span>
+                                <span>Reference: MORT-2023-06</span>
+                            </div>
+                        </div>
+                        <div class="transaction-amount-modern negative">
+                            -<span class="taka-symbol">1250.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item-modern">
+                        <div class="transaction-icon-modern icon-income">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="transaction-details-modern">
+                            <h4>Freelance Payment</h4>
+                            <p>BRAC Bank • Savings Account</p>
+                            <div class="transaction-meta">
+                                <span>Jun 5, 2023</span>
+                                <span>Reference: FREELANCE-06</span>
+                            </div>
+                        </div>
+                        <div class="transaction-amount-modern positive">
+                            +<span class="taka-symbol">3500.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item-modern">
+                        <div class="transaction-icon-modern icon-expense">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                        <div class="transaction-details-modern">
+                            <h4>Gas Station</h4>
+                            <p>Dutch-Bangla Bank • Debit Card</p>
+                            <div class="transaction-meta">
+                                <span>Jun 3, 2023</span>
+                                <span>Reference: TXN-87654</span>
+                            </div>
+                        </div>
+                        <div class="transaction-amount-modern negative">
+                            -<span class="taka-symbol">45.20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view-all-transactions">
+                    <button class="btn secondary" onclick="window.location.href='transaction-history.html'">
+                        View All Transactions
+                    </button>
+                </div>
+
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2>All Transactions</h2>
+                </div>
+
+                <div class="transactions-table-container">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jun 15, 2023</td>
+                                <td>Salary Deposit</td>
+                                <td>Income</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="positive">+<span class="taka-symbol">35000.00</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jun 12, 2023</td>
+                                <td>Grocery Store</td>
+                                <td>Shopping</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="negative">-<span class="taka-symbol">84.50</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jun 10, 2023</td>
+                                <td>Mortgage Payment</td>
+                                <td>Housing</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="negative">-<span class="taka-symbol">1250.00</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jun 5, 2023</td>
+                                <td>Freelance Payment</td>
+                                <td>Income</td>
+                                <td>BRAC Bank Savings</td>
+                                <td class="positive">+<span class="taka-symbol">3500.00</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jun 3, 2023</td>
+                                <td>Gas Station</td>
+                                <td>Transportation</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="negative">-<span class="taka-symbol">45.20</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jun 1, 2023</td>
+                                <td>Electricity Bill</td>
+                                <td>Housing</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="negative">-<span class="taka-symbol">120.75</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>May 28, 2023</td>
+                                <td>Online Shopping</td>
+                                <td>Shopping</td>
+                                <td>City Bank Credit</td>
+                                <td class="negative">-<span class="taka-symbol">65.30</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>May 25, 2023</td>
+                                <td>Restaurant</td>
+                                <td>Food & Dining</td>
+                                <td>Dutch-Bangla Bank</td>
+                                <td class="negative">-<span class="taka-symbol">42.80</span></td>
+                                <td>Completed</td>
+                                <td>
+                                    <button class="btn secondary" style="padding: 5px 10px; font-size: 0.85rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn secondary">Previous</button>
+                    <span class="page-info">Page 1 of 5</span>
+                    <button class="btn secondary">Next</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Format numbers with commas for Bangladeshi style
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (savedTheme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+            
+            // Format Taka amounts
+            const takaElements = document.querySelectorAll('.taka-symbol');
+            takaElements.forEach(element => {
+                const text = element.textContent;
+                if (text && !isNaN(parseFloat(text.replace(/,/g, '')))) {
+                    const number = parseFloat(text.replace(/,/g, ''));
+                    element.textContent = number.toLocaleString('en-BD', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

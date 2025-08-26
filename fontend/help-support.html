@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - BankSync</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .help-container {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .help-content h2,
+        .dark-theme .category-card h3,
+        .dark-theme .faq-question h3 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .help-search {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .search-box {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .search-box input {
+            background-color: #334155;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .search-btn {
+            background-color: #97B067; /* Sage Green */
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .search-btn:hover {
+            background-color: #7d9a55; /* Darker Sage Green */
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .category-card {
+            background-color: #334155;
+        }
+        
+        .dark-theme .category-card:hover {
+            background-color: #475569;
+        }
+        
+        .dark-theme .category-card p {
+            color: #cbd5e1;
+        }
+        
+        .dark-theme .faq-question {
+            background-color: #334155;
+        }
+        
+        .dark-theme .faq-answer {
+            background-color: #1e293b;
+            color: #cbd5e1;
+        }
+        
+        .dark-theme .contact-card {
+            background-color: #334155;
+        }
+        
+        .dark-theme .contact-card:hover {
+            background-color: #475569;
+        }
+        
+        .dark-theme .contact-card p {
+            color: #cbd5e1;
+        }
+        
+        /* Dark theme buttons - FIXED with your colors */
+        .dark-theme .btn.primary {
+            background-color: #97B067; /* Sage Green */
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4; /* Lavender */
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55; /* Darker Sage Green */
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0; /* Darker Lavender */
+            border-color: #6f72b0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .settings-container {
+            background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankEase</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html" class="active">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Md Modabbir Hossain Mahin</span>
+                        <span class="user-email">mahin@example.com</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Md+Modabbir+Hossain+Mahin&background=97B067&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1>Help & Support</h1>
+                    <p>How can we help you today?</p>
+                </div>
+
+                <div class="help-container">
+                    <div class="help-search">
+                        <div class="search-box">
+                            <input type="text" placeholder="Search for help articles...">
+                            <button class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="help-content">
+                        <div class="help-categories">
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <h3>Bank Accounts</h3>
+                                <p>Managing your connected bank accounts</p>
+                            </div>
+                            
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <h3>Transactions</h3>
+                                <p>Viewing and managing your transactions</p>
+                            </div>
+                            
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-paper-plane"></i>
+                                </div>
+                                <h3>Transfers</h3>
+                                <p>Sending money between accounts</p>
+                            </div>
+                            
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h3>Security</h3>
+                                <p>Protecting your account and data</p>
+                            </div>
+                            
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <h3>Settings</h3>
+                                <p>Customizing your experience</p>
+                            </div>
+                            
+                            <div class="category-card">
+                                <div class="category-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <h3>Billing</h3>
+                                <p>Subscription and payment information</p>
+                            </div>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h2>Frequently Asked Questions</h2>
+                            
+                            <div class="faq-list">
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <h3>How do I connect a new bank account?</h3>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <p>To connect a new bank account, go to the "Connect Bank" section in your dashboard. You'll need to provide your bank's name, account type, account number, and routing number. We use bank-level security to protect your information.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <h3>Is my financial data secure?</h3>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <p>Absolutely. We use 256-bit encryption and bank-level security to protect your data. We never store your bank credentials and only access read-only information with your permission.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <h3>How often is my data updated?</h3>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <p>Your account data is updated in real-time. Transactions typically appear within minutes of being processed by your bank.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <h3>What should I do if I notice an unauthorized transaction?</h3>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <p>If you notice any unauthorized transactions, immediately contact your bank to dispute the transaction. Then, report it to our support team through the contact form below so we can investigate.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h2>Contact Support</h2>
+                            
+                            <div class="contact-options">
+                                <div class="contact-card">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <h3>Live Chat</h3>
+                                    <p>Available 24/7 for immediate assistance</p>
+                                    <button class="btn secondary">Start Chat</button>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h3>Email Support</h3>
+                                    <p>support@bankease.com</p>
+                                    <p>Response within 24 hours</p>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <h3>Phone Support</h3>
+                                    <p>+880 9610 111222</p>
+                                    <p>Sat-Thu, 9AM-6PM BDT</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // FAQ accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (savedTheme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+            
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', function() {
+                    const isOpen = item.classList.contains('open');
+                    
+                    // Close all items
+                    faqItems.forEach(i => i.classList.remove('open'));
+                    
+                    // Open clicked item if it wasn't already open
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

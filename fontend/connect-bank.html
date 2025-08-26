@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Bank - BankSync</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme styles (unchanged from your provided code) */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(180deg, #1e3a8a, #2563eb);
+        }
+        
+        .dark-theme {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --sidebar-bg: linear-gradient(180deg, #0f172a, #1e3a8a);
+        }
+        
+        .dark-theme .card,
+        .dark-theme .connect-bank-container .card {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .topbar {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-name {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .user-email {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .page-header h1,
+        .dark-theme .page-header p,
+        .dark-theme .section-header h2,
+        .dark-theme .card h2,
+        .dark-theme .card h3,
+        .dark-theme .supported-banks h3 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .subtitle {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .form-group input,
+        .dark-theme .form-group select {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .form-group input:focus,
+        .dark-theme .form-group select:focus {
+            border-color: #60a5fa;
+        }
+        
+        .dark-theme .form-group label {
+            color: #cbd5e1;
+        }
+        
+        .dark-theme .btn.primary {
+            background-color: #97B067;
+            color: white;
+            border: 1px solid #97B067;
+        }
+        
+        .dark-theme .btn.secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+        
+        .dark-theme .btn.danger {
+            background-color: #898AC4;
+            color: white;
+            border: 1px solid #898AC4;
+        }
+        
+        .dark-theme .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .dark-theme .btn.primary:hover {
+            background-color: #7d9a55;
+            border-color: #7d9a55;
+        }
+        
+        .dark-theme .btn.danger:hover {
+            background-color: #6f72b0;
+            border-color: #6f72b0;
+        }
+        
+        .dark-theme .security-feature .feature-text h4 {
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .security-feature .feature-text p {
+            color: #94a3b8;
+        }
+        
+        .dark-theme .bank-logos {
+            background-color: #1e293b;
+        }
+        
+        .dark-theme .bank-logo {
+            background-color: #334155;
+            color: #e2e8f0;
+        }
+        
+        .dark-theme .note {
+            color: #94a3b8;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .settings-container {
+            background: var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>BankSync</h2>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="my-banks.html">
+                            <i class="fas fa-university"></i>
+                            <span>My Banks</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="transaction-history.html">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="payment-transfer.html">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="connect-bank.html" class="active">
+                            <i class="fas fa-link"></i>
+                            <span>Connect Bank</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="help-support.html">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Md Modabbir Hossain Mahin</span>
+                        <span class="user-email">mahin@example.com</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Md+Modabbir+Hossain+Mahin&background=97B067&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="page-header">
+                    <h1>Connect Bank</h1>
+                    <p>Securely connect your bank accounts to BankEase</p>
+                </div>
+
+                <div class="connect-bank-container">
+                    <div class="card">
+                        <h2>Connect Your Bank Account</h2>
+                        <p class="subtitle">We use bank-level security to protect your information</p>
+                        
+                        <div class="security-features">
+                            <div class="security-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Bank-Level Security</h4>
+                                    <p>256-bit encryption to protect your data</p>
+                                </div>
+                            </div>
+                            <div class="security-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Read-Only Access</h4>
+                                    <p>We never access your account credentials</p>
+                                </div>
+                            </div>
+                            <div class="security-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Automatic Sync</h4>
+                                    <p>Your data updates in real-time</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form id="connectBankForm">
+                            <div class="form-group">
+                                <label for="bankName">Bank Name</label>
+                                <input type="text" id="bankName" placeholder="e.g., Dutch-Bangla Bank, BRAC Bank" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="accountType">Account Type</label>
+                                <select id="accountType" required>
+                                    <option value="">Select Account Type</option>
+                                    <option value="checking">Checking</option>
+                                    <option value="savings">Savings</option>
+                                    <option value="credit">Credit Card</option>
+                                    <option value="investment">Investment</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number</label>
+                                <input type="text" id="accountNumber" placeholder="Account number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="routingNumber">Routing Number</label>
+                                <input type="text" id="routingNumber" placeholder="Routing number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="initialBalance">Initial Balance (Optional)</label>
+                                <input type="number" id="initialBalance" placeholder="0.00" step="0.01">
+                            </div>
+                            
+                            <button type="submit" class="btn primary full-width">Connect Account</button>
+                        </form>
+                    </div>
+                    
+                    <div class="supported-banks">
+                        <h3>Supported Banks</h3>
+                        <div class="bank-logos">
+                            <div class="bank-logo">DBBL</div>
+                            <div class="bank-logo">BRAC</div>
+                            <div class="bank-logo">CITY</div>
+                            <div class="bank-logo">EBL</div>
+                            <div class="bank-logo">AGRANI</div>
+                            <div class="bank-logo">SONALI</div>
+                        </div>
+                        <p class="note">Don't see your bank? We support over 50 financial institutions in Bangladesh.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          window.location.href = 'index.html';
+          return;
+        }
+
+        const form = document.getElementById('connectBankForm');
+        if (form) {
+          form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const bankName = document.getElementById('bankName').value;
+            const accountType = document.getElementById('accountType').value;
+            const accountNumber = document.getElementById('accountNumber').value;
+            const routingNumber = document.getElementById('routingNumber').value;
+            const balance = document.getElementById('initialBalance').value || 0;
+            try {
+              const response = await fetch('/api/banks', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ bankName, accountType, accountNumber, routingNumber, balance: Number(balance) })
+              });
+              const data = await response.json();
+              if (data.error) {
+                alert(data.error);
+                return;
+              }
+              alert('Bank connected successfully!');
+              form.reset();
+              window.location.href = 'my-banks.html';
+            } catch (err) {
+              alert('Error connecting bank');
+              console.error(err);
+            }
+          });
+        }
+
+        // Apply saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark-theme');
+        } else if (savedTheme === 'system') {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-theme');
+          }
+        }
+      });
+    </script>
+</body>
+</html>
