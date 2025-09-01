@@ -1,4 +1,4 @@
-# BankEase - Modern Banking Website
+# BankSync - Modern Banking Website
 
 A responsive, modern banking platform built with HTML, CSS, and JavaScript. This project provides a comprehensive banking interface with features for managing accounts, transactions, transfers, and more.
 
